@@ -1,15 +1,17 @@
-#' rbvnorm
-#'
-#' @param iter number iterations to run in the sample
-#' @param mu mean vector of distribution
-#' @param sigma var/cov matrix of distribution
-#'
-#' @return invisible list of dataframe, iter, mu, sigma
-#' @export
-#'
-#' @examples
-#' \dontrun{rbvnorm(iter = 10000, mu = c(3, 6), sigma = matrix(c(8,-2,-2,4), nrow = 2, byrow = TRUE))}
-#'
+---
+title: "rbvNorm"
+author: "Tucker Capps"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(ellipse)
+```
+
+
+```{r}
 rbvnorm <- function(iter, mu, sigma) {
 
   df <- data.frame(matrix(nrow = 0, ncol = 2)) # creating initial data frame
@@ -29,3 +31,30 @@ rbvnorm <- function(iter, mu, sigma) {
   colnames(df) <- c("X1", "X2")
   invisible(list(gibbs = df, iter = iter, mu = mu, sigma = sigma))
 }
+```
+
+
+
+```{r}
+gibbs <- rbvnorm(iter = 10000, mu = c(3, 6), sigma = matrix(c(8,-2,-2,4), nrow = 2, byrow = TRUE))
+```
+
+```{r}
+tail(gibbs$gibbs)
+gibbs$iter
+gibbs$mu
+gibbs$sigma
+```
+
+
+```{r, warning = FALSE}
+df <- gibbs$gibbs
+
+p <- ggplot(df, aes(x = X1, y = X2)) +
+  geom_point()
+
+#fit <- ellipse::ellipse(cor(x, y), centre = c(mean(x), mean(y)), scale = c(sd(x), sd(y)))
+
+p + stat_ellipse(aes(fill = "ellipse"), level = 0.95, type = "norm", color = "red")
+```
+
