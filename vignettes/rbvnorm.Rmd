@@ -17,7 +17,6 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(rbvnormCAPPS)
 library(ggplot2)
-library(ellipse)
 ```
 
 ```{r}
@@ -52,5 +51,17 @@ tail(gibbs$gibbs)
 gibbs$iter
 gibbs$mu
 gibbs$sigma
+```
+
+
+```{r, warning = FALSE}
+df <- gibbs$gibbs
+
+p <- ggplot(df, aes(x = X1, y = X2)) +
+  geom_point()
+
+#fit <- ellipse::ellipse(cor(x, y), centre = c(mean(x), mean(y)), scale = c(sd(x), sd(y)))
+
+p + stat_ellipse(aes(fill = "ellipse"), level = 0.95, type = "norm", color = "red")
 ```
 

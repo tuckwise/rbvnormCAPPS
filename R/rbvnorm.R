@@ -6,6 +6,8 @@
 #'
 #' @return invisible list of dataframe, iter, mu, sigma
 #' @importFrom stats rnorm
+#'
+#' @importFrom ggplot2 ggplot geom_point stat_ellipse
 #' @export
 #'
 #' @examples
