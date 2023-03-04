@@ -1,15 +1,24 @@
 ---
-title: "rbvNorm"
-author: "Tucker Capps"
-date: "`r Sys.Date()`"
-output: html_document
+title: "rbvnorm"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{rbvnorm}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include=FALSE}
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(rbvnormCAPPS)
 library(ggplot2)
 library(ellipse)
 ```
-
 
 ```{r}
 rbvnorm <- function(iter, mu, sigma) {
@@ -33,28 +42,15 @@ rbvnorm <- function(iter, mu, sigma) {
 }
 ```
 
-
-
 ```{r}
 gibbs <- rbvnorm(iter = 10000, mu = c(3, 6), sigma = matrix(c(8,-2,-2,4), nrow = 2, byrow = TRUE))
 ```
+
 
 ```{r}
 tail(gibbs$gibbs)
 gibbs$iter
 gibbs$mu
 gibbs$sigma
-```
-
-
-```{r, warning = FALSE}
-df <- gibbs$gibbs
-
-p <- ggplot(df, aes(x = X1, y = X2)) +
-  geom_point()
-
-#fit <- ellipse::ellipse(cor(x, y), centre = c(mean(x), mean(y)), scale = c(sd(x), sd(y)))
-
-p + stat_ellipse(aes(fill = "ellipse"), level = 0.95, type = "norm", color = "red")
 ```
 
