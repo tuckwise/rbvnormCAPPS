@@ -20,6 +20,6 @@ invisible list of dataframe, iter, mu, sigma
 rbvnorm
 }
 \examples{
-\dontrun{rbvnorm(iter = 10000, mu = c(3, 6), sigma = matrix(c(8,-2,-2,4), nrow = 2, byrow = TRUE))}
+\dontrun{rbvnorm(iter, mu, sigma)}
 
 }
